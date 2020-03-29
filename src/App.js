@@ -3,6 +3,7 @@ import { Container, Col, Button, Row } from "react-bootstrap";
 import InternetCheckbox from "./components/InternetCheckbox";
 import PhoneLinesInput from "./components/PhoneLinesInput";
 import CellPhonesTable from "./components/CellPhonesTable";
+import Purchase from "./components/Purchase";
 
 function App() {
   // State controlling internet checkbox
@@ -11,25 +12,31 @@ function App() {
   const [cellPhonesState, setCellPhonesState] = useState([
     {
       name: "Motorola G99",
-      value: 0
+      value: 0,
+      price: 800
     },
     {
       name: "iPhone 99",
-      value: 0
+      value: 0,
+      price: 6000
     },
     {
       name: "Samsung Galaxy 99",
-      value: 0
+      value: 0,
+      price: 1000
     },
     {
       name: "Sony Xperia 99",
-      value: 0
+      value: 0,
+      price: 900
     },
     {
       name: "Huawei 99",
-      value: 0
+      value: 0,
+      price: 900
     }
   ]);
+  const [priceState, setPriceState] = useState();
 
   return (
     <Container>
@@ -54,6 +61,8 @@ function App() {
           ></CellPhonesTable>
         </Row>
       </Col>
+      <Purchase></Purchase>
+      <label>Total price: {}</label>
       <Button onClick={() => console.log(phoneLinesState)}>
         Test state of phone
       </Button>
