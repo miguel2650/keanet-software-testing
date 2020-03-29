@@ -39,6 +39,7 @@ function App() {
   const [priceState, setPriceState] = useState();
 
   return (
+    /*
     <Container>
       <Col lg="10" md="8" sm="6">
         <h1>KEANet</h1>
@@ -67,6 +68,8 @@ function App() {
         Test state of phone
       </Button>
     </Container>
+    */
+    <Purchase></Purchase>
   );
 }
 

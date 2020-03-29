@@ -1,22 +1,19 @@
 import React, { useState } from "react";
 
 function CellPhonesTable(props) {
+  console.log(props.priceList);
   const [selectedPhone, setSelectedPhone] = useState();
 
-  const handleAdd = e => {
-    // Never update state directly.
-    const newState = [...props.cellPhonesState];
-    newState[selectedPhone].value = newState[selectedPhone].value + 1;
-    props.setCellPhonesState(newState);
-    console.log(props.cellPhonesState);
-  };
+  // Contains <option> html elements
+  let listOfPhones = [];
 
-  const handleDelete = e => {
-    const newState = [...props.cellPhonesState];
-    newState[selectedPhone].value = newState[selectedPhone].value - 1;
-    props.setCellPhonesState(newState);
-    console.log(props.cellPhonesState);
-  };
+  Object.keys(props.priceList).forEach((phone, index) => {
+    listOfPhones.push(
+      <option key={phone + index} value={phone}>
+        {phone}
+      </option>
+    );
+  });
 
   return (
     <React.Fragment>
@@ -26,48 +23,28 @@ function CellPhonesTable(props) {
           <tr>
             <td>
               <select
-                size={props.cellPhonesState.length}
-                id="txtCellPhones"
+                size={listOfPhones.length}
+                id="cellPhones"
                 style={{ width: 200 }}
               >
-                {props.cellPhonesState.map((phone, index) => (
-                  <option
-                    key={phone.name + index}
-                    value={phone.name}
-                    onClick={() => setSelectedPhone(index)}
-                  >
-                    {phone.name}
-                  </option>
-                ))}
+                {listOfPhones}
               </select>
             </td>
             <td>
-              <button onClick={handleAdd}>&gt;</button>
+              <button onClick={props.selectCellPhone}>&gt;</button>
               <br></br>
-              <button onClick={handleDelete}>&lt;</button>
+              <button onClick={props.deselectCellPhone}>&lt;</button>
             </td>
             <select
-              size={props.cellPhonesState.length}
+              size={listOfPhones.length}
               id="selectedPhones"
               style={{ width: 200 }}
             >
-              {props.cellPhonesState.map((phone, index) => {
-                if (phone.value > 0) {
-                  let optionsObjects = [];
-                  for (let i = 0; i < phone.value; i++) {
-                    optionsObjects.push(
-                      <option
-                        key={phone.name + i}
-                        value={phone.name}
-                        onClick={() => setSelectedPhone(index)}
-                      >
-                        {phone.name}
-                      </option>
-                    );
-                  }
-                  return optionsObjects;
-                }
-              })}
+              {props.cellPhones.map((value, index) => (
+                <option key={value + index} value={value}>
+                  {value}
+                </option>
+              ))}
             </select>
           </tr>
         </tbody>
@@ -77,3 +54,24 @@ function CellPhonesTable(props) {
 }
 
 export default CellPhonesTable;
+/*
+{
+  props.cellPhones.map((phone, index) => {
+    if (phone.value > 0) {
+      let optionsObjects = [];
+      for (let i = 0; i < phone.value; i++) {
+        optionsObjects.push(
+          <option
+            key={phone.name + i}
+            value={phone.name}
+            onClick={() => setSelectedPhone(index)}
+          >
+            {phone.name}
+          </option>
+        );
+      }
+      return optionsObjects;
+    }
+  });
+}
+*/
