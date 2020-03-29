@@ -1,44 +1,19 @@
 import React, { useState } from "react";
 
-const phonesList = [
-  {
-    name: "Motorola G99",
-    value: 0
-  },
-  {
-    name: "iPhone 99",
-    value: 0
-  },
-  {
-    name: "Samsung Galaxy 99",
-    value: 0
-  },
-  {
-    name: "Sony Xperia 99",
-    value: 0
-  },
-  {
-    name: "Huawei 99",
-    value: 0
-  }
-];
-
 function CellPhonesTable(props) {
   const [selectedPhone, setSelectedPhone] = useState();
 
-  // Takes the parents passed in function (setState)
-  // and changes the state based on the current state.
-  const handleChange = e => {
-    setSelectedPhone(e.target.value);
-    console.log(selectedPhone);
+  const handleAdd = e => {
+    // Never update state directly.
+    const newState = [...props.cellPhonesState];
+    newState[selectedPhone].value = newState[selectedPhone].value + 1;
+    props.setCellPhonesState(newState);
+    console.log(props.cellPhonesState);
   };
 
-  const handleAdd = e => {
-    console.log(selectedPhone, "selected phone");
-    // Never update state directly.
-    console.log(e.target.value);
+  const handleDelete = e => {
     const newState = [...props.cellPhonesState];
-    newState[0].value = newState[0].value + 1;
+    newState[selectedPhone].value = newState[selectedPhone].value - 1;
     props.setCellPhonesState(newState);
     console.log(props.cellPhonesState);
   };
@@ -53,7 +28,7 @@ function CellPhonesTable(props) {
               <select
                 size={props.cellPhonesState.length}
                 id="txtCellPhones"
-                onChange={handleChange}
+                style={{ width: 200 }}
               >
                 {props.cellPhonesState.map((phone, index) => (
                   <option
@@ -69,16 +44,28 @@ function CellPhonesTable(props) {
             <td>
               <button onClick={handleAdd}>&gt;</button>
               <br></br>
-              <button>&lt;</button>
+              <button onClick={handleDelete}>&lt;</button>
             </td>
-            <select>
+            <select
+              size={props.cellPhonesState.length}
+              id="selectedPhones"
+              style={{ width: 200 }}
+            >
               {props.cellPhonesState.map((phone, index) => {
-                if (phone.value < 0) {
-                  return (
-                    <option key={phone.name + index} value={phone.name}>
-                      {phone.name}
-                    </option>
-                  );
+                if (phone.value > 0) {
+                  let optionsObjects = [];
+                  for (let i = 0; i < phone.value; i++) {
+                    optionsObjects.push(
+                      <option
+                        key={phone.name + i}
+                        value={phone.name}
+                        onClick={() => setSelectedPhone(index)}
+                      >
+                        {phone.name}
+                      </option>
+                    );
+                  }
+                  return optionsObjects;
                 }
               })}
             </select>
