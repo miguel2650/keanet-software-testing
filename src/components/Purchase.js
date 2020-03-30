@@ -20,9 +20,11 @@ class Purchase extends React.Component {
     "Huawei 99": 900
   };
 
-  componentDidMount() {}
+  componentDidMount() {
+    console.log("this state: ", this.state);
+  }
 
-  includeInternet(input) {
+  includeInternet = input => {
     this.setState({ internetConnection: input });
     if (input) {
       this.setState({ price: this.state.price + 200 });
@@ -31,43 +33,46 @@ class Purchase extends React.Component {
       this.setState({ price: this.state.price - 200 });
       return this.state.price;
     }
-  }
+  };
 
-  addPhoneLine() {
+  addPhoneLine = () => {
     this.setState({ phoneLines: this.state.phoneLines + 1 });
     this.setState({ price: this.state.price + 150 });
-  }
+  };
 
-  removePhoneLine() {
+  removePhoneLine = () => {
     this.setState({ phoneLines: this.state.phoneLines - 1 });
     this.setState({ price: this.state.price - 150 });
-  }
+  };
 
-  selectCellPhone(modelName) {
+  selectCellPhone = modelName => {
     console.log("pricelist ", this.priceList);
     if (modelName in this.priceList) {
       const newList = [...this.state.cellPhones];
       newList.push(modelName);
-      this.setState({ newList });
+      this.setState({ cellPhones: newList });
       this.setState({ price: this.state.price + this.priceList[modelName] });
     }
     return this.state.price;
-  }
+  };
 
-  deselectCellPhone(modelName) {
-    if (modelName in this.state.cellPhones) {
+  deselectCellPhone = modelName => {
+    console.log("deselect with ", modelName);
+    console.log("cellhpones state", this.state.cellPhones);
+    if (this.state.cellPhones.includes(modelName)) {
       const newList = [...this.state.cellPhones];
-      const index = newList.valueOf(modelName);
+      const index = newList.indexOf(modelName);
       newList.splice(index, 1);
-      this.setState({ newList });
+      this.setState({ cellPhones: newList });
+      console.log("newlist ", newList);
       this.setState({ price: this.state.price - this.priceList[modelName] });
     }
     return this.state.price;
-  }
+  };
 
-  buying() {
+  buying = () => {
     return "alert message";
-  }
+  };
 
   render() {
     return (
