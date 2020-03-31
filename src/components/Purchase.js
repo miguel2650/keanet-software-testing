@@ -10,6 +10,7 @@ class Purchase extends React.Component {
       cellPhones: [],
       price: 0
     };
+    this.includeInternet = this.includeInternet.bind(this);
   }
 
   priceList = {
@@ -20,7 +21,7 @@ class Purchase extends React.Component {
     "Huawei 99": 900
   };
 
-  includeInternet = input => {
+  includeInternet(input) {
     this.setState({ internetConnection: input });
     if (input) {
       this.setState({ price: this.state.price + 200 });
@@ -29,7 +30,7 @@ class Purchase extends React.Component {
       this.setState({ price: this.state.price - 200 });
       return this.state.price;
     }
-  };
+  }
 
   addPhoneLine = () => {
     this.setState({ phoneLines: this.state.phoneLines + 1 });
@@ -107,9 +108,13 @@ class Purchase extends React.Component {
           type="number"
           max="8"
           min="0"
+          onPaste={e => {
+            window.alert("Please do not paste...");
+            e.preventDefault();
+          }}
           onKeyDown={e => e.preventDefault()}
           onAuxClick={() =>
-            window.confirm(
+            window.alert(
               "Please use the arrows instead of trying to break the system"
             )
           }
