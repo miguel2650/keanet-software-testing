@@ -46,7 +46,6 @@ class Purchase extends React.Component {
   };
 
   selectCellPhone = modelName => {
-    console.log("pricelist ", this.priceList);
     if (modelName in this.priceList) {
       const newList = [...this.state.cellPhones];
       newList.push(modelName);
@@ -57,8 +56,6 @@ class Purchase extends React.Component {
   };
 
   deselectCellPhone = modelName => {
-    console.log("deselect with ", modelName);
-    console.log("cellhpones state", this.state.cellPhones);
     if (this.state.cellPhones.includes(modelName)) {
       const newList = [...this.state.cellPhones];
       const index = newList.indexOf(modelName);
@@ -77,12 +74,16 @@ class Purchase extends React.Component {
   render() {
     return (
       <React.Fragment>
+        <input type="checkbox"></input>
+        <label>Internet Connection</label>
+        <br></br>
         <CellPhonesTable
           selectCellPhone={this.selectCellPhone}
           deselectCellPhone={this.deselectCellPhone}
           cellPhones={this.state.cellPhones}
           priceList={this.priceList}
         ></CellPhonesTable>
+        <label>Total price: {this.state.price}DKK</label>
       </React.Fragment>
     );
   }
