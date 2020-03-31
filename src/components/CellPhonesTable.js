@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 
 function CellPhonesTable(props) {
-  console.log("pricelist from cellphonestable ", props.priceList);
   const [selectedPhone, setSelectedPhone] = useState();
 
   // Contains <option> html elements
@@ -15,7 +14,6 @@ function CellPhonesTable(props) {
     );
   });
 
-  console.log("State of select", selectedPhone);
   return (
     <React.Fragment>
       <label>Cell phones</label>
@@ -61,24 +59,3 @@ function CellPhonesTable(props) {
 }
 
 export default CellPhonesTable;
-/*
-{
-  props.cellPhones.map((phone, index) => {
-    if (phone.value > 0) {
-      let optionsObjects = [];
-      for (let i = 0; i < phone.value; i++) {
-        optionsObjects.push(
-          <option
-            key={phone.name + i}
-            value={phone.name}
-            onClick={() => setSelectedPhone(index)}
-          >
-            {phone.name}
-          </option>
-        );
-      }
-      return optionsObjects;
-    }
-  });
-}
-*/

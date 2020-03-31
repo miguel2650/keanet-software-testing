@@ -20,10 +20,6 @@ class Purchase extends React.Component {
     "Huawei 99": 900
   };
 
-  componentDidMount() {
-    console.log("this state: ", this.state);
-  }
-
   includeInternet = input => {
     this.setState({ internetConnection: input });
     if (input) {
@@ -61,21 +57,70 @@ class Purchase extends React.Component {
       const index = newList.indexOf(modelName);
       newList.splice(index, 1);
       this.setState({ cellPhones: newList });
-      console.log("newlist ", newList);
       this.setState({ price: this.state.price - this.priceList[modelName] });
     }
     return this.state.price;
   };
 
   buying = () => {
-    return "alert message";
+    if (this.state.price <= 0) {
+      return "Please select some items before checking out";
+    } else {
+      let buyMessage = "";
+      if (this.state.internetConnection) {
+        buyMessage += "1x Internet Connection = 200 DKK (monthly) \n";
+      }
+      if (this.state.phoneLines > 0) {
+        buyMessage += `${this.state.phoneLines}x Phone Lines = ${
+          this.state.phoneLines * 150
+        } DKK (monthly)\n`;
+      }
+      if (this.state.cellPhones.length > 0) {
+        var counts = {};
+        for (var i = 0; i < this.state.cellPhones.length; i++) {
+          counts[this.state.cellPhones[i]] =
+            1 + (counts[this.state.cellPhones[i]] || 0);
+        }
+        for (const phone in counts) {
+          buyMessage += `${counts[phone]}x ${phone} = ${
+            counts[phone] * this.priceList[phone]
+          } DKK \n`;
+        }
+      }
+      buyMessage += ` \n You bought for a total of: ${this.state.price} DKK \n`;
+      return buyMessage;
+    }
   };
 
   render() {
     return (
       <React.Fragment>
-        <input type="checkbox"></input>
+        <h1>KEANet</h1>
+        <input
+          type="checkbox"
+          onClick={() => this.includeInternet(!this.state.internetConnection)}
+        ></input>
         <label>Internet Connection</label>
+        <br></br>
+        <label>Phone Lines </label>
+        <input
+          type="number"
+          max="8"
+          min="0"
+          onKeyDown={e => e.preventDefault()}
+          onAuxClick={() =>
+            window.confirm(
+              "Please use the arrows instead of trying to break the system"
+            )
+          }
+          onChange={e => {
+            if (e.target.value > this.state.phoneLines) {
+              this.addPhoneLine();
+            } else {
+              this.removePhoneLine();
+            }
+          }}
+        ></input>
         <br></br>
         <CellPhonesTable
           selectCellPhone={this.selectCellPhone}
@@ -83,7 +128,15 @@ class Purchase extends React.Component {
           cellPhones={this.state.cellPhones}
           priceList={this.priceList}
         ></CellPhonesTable>
-        <label>Total price: {this.state.price}DKK</label>
+        <label>Total price: {this.state.price} DKK</label>
+        <br></br>
+        <button
+          onClick={() => {
+            window.confirm(this.buying());
+          }}
+        >
+          Buy
+        </button>
       </React.Fragment>
     );
   }
