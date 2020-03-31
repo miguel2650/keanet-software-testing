@@ -5,6 +5,7 @@ import Purchase from "../components/Purchase";
 import ReactDOM from "react-dom";
 import { shallow } from "enzyme";
 import renderer from "react-test-renderer";
+//Renderer docs: https://reactjs.org/docs/test-renderer.html
 
 test("renders KEANet <h1> tag", () => {
   const { getByText } = render(<Purchase></Purchase>);
@@ -51,3 +52,25 @@ describe("includeInternet()", () => {
     }
   });
 });
+
+/*
+
+TODO: We are unable to test for type errors
+Look inside Purchase.JS @ includeInternet()
+The input of whatever type will never crash the application.
+Any type of input can be acceptable.
+Changing to TypeScript can fix our issue or adding some kind of checking mechanism.
+Like: If (typeOf(input) === Boolean) {} else {throw new Error()}
+Give me your feedback.
+
+------------------------------------------------------
+Dont mind this, was used for testing a error testcase.
+
+      let tree2 = component.includeInternet("string");
+      expect(tree2).toThrow();
+
+      case3: {
+        input: "thisIsString",
+        expected: new Error("Eror")
+      }
+*/

@@ -22,14 +22,15 @@ class Purchase extends React.Component {
   };
 
   includeInternet(input) {
-    this.setState({ internetConnection: input });
-    if (input) {
-      this.setState({ price: this.state.price + 200 });
-      return this.state.price;
-    } else {
-      this.setState({ price: this.state.price - 200 });
-      return this.state.price;
-    }
+      this.setState({ internetConnection: input });
+      if (input) {
+        this.setState({ price: this.state.price + 200 });
+        return this.state.price;
+      } else {
+        this.setState({ price: this.state.price - 200 });
+        return this.state.price;
+      }
+    } 
   }
 
   addPhoneLine = () => {
