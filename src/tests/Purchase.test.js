@@ -11,16 +11,13 @@ test("renders KEANet <h1> tag", () => {
   expect(linkElement).toBeInTheDocument();
 });
 
-/*
-test("includeInternet", () => {
-  //const value = includeInternet(true);
-  expect(includeInternet(true).toBe(200));
-});
-*/
+// Using enzyme to simulate
+const wrapper = shallow(<Purchase></Purchase>);
 
 describe("includeInternet function", () => {
-  it("should change checkbox and price", () => {
-    const wrapper = shallow(<Purchase></Purchase>);
-    expect(wrapper.instance().includeInternet(true)).equals(true);
+  it("should change state of internetConnection to true when checkbox is clicked", () => {
+    expect(wrapper.state("internetConnection")).toEqual(false);
+    wrapper.find("#includeInternet").simulate("click");
+    expect(wrapper.state("internetConnection")).toEqual(true);
   });
 });

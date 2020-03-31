@@ -98,6 +98,7 @@ class Purchase extends React.Component {
       <React.Fragment>
         <h1>KEANet</h1>
         <input
+          id="includeInternet"
           type="checkbox"
           onClick={() => this.includeInternet(!this.state.internetConnection)}
         ></input>
