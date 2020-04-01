@@ -1,11 +1,7 @@
 import React from "react";
 import { render } from "@testing-library/react";
-import { includeInternet, selectCellPhone } from "../components/Purchase";
 import Purchase from "../components/Purchase";
-import ReactDOM from "react-dom";
 import { shallow } from "enzyme";
-import renderer from "react-test-renderer";
-//Renderer docs: https://reactjs.org/docs/test-renderer.html
 
 test("renders KEANet <h1> tag", () => {
   const { getByText } = render(<Purchase></Purchase>);
@@ -28,28 +24,78 @@ describe("includeInternet function", () => {
     expect(wrapper.state("internetConnection")).toEqual(false);
     wrapper.find("#includeInternet").simulate("click");
     expect(wrapper.state("internetConnection")).toEqual(true);
+    // If not simulated once again, the state will remain price: 200, internetConnection: true
+    wrapper.find("#includeInternet").simulate("click");
   });
 });
 
 // Testing the parameters passed to includeInternet() function
 describe("includeInternet()", () => {
   it("should fail at all datatypes but boolean", () => {
-    let component = renderer.create(<Purchase></Purchase>).getInstance();
+    //let component = renderer.create(<Purchase></Purchase>).getInstance();
     // Data for inputs with expected outputs
     let mockData = {
-      case1: {
+      case0: {
         input: true,
         expected: 200
       },
-      case2: {
+      case1: {
         input: false,
         expected: 0
+      },
+      case2: {
+        input: "stringlala",
+        expected: TypeError("Wrong type")
+      },
+      case3: {
+        input: "--",
+        expected: TypeError("Wrong type")
+      },
+      case4: {
+        input: 0,
+        expected: TypeError("Wrong type")
+      },
+      case5: {
+        input: null,
+        expected: TypeError("Wrong type")
       }
     };
+    let counter = 0;
     for (let testCase in mockData) {
-      let tree = component.includeInternet(mockData[testCase].input);
-      expect(tree).toBe(mockData[testCase].expected);
+      console.log("Test case: ", counter);
+      const instance = wrapper
+        .instance()
+        .includeInternet(mockData[testCase].input);
+      // Test cases where error is expected
+      if (counter >= 2) {
+        expect(instance).toThrow(mockData[testCase].expected);
+      } else {
+        // Text cases where value is expected
+        expect(instance).toBe(mockData[testCase].expected);
+      }
+      counter++;
     }
+  });
+
+  // Testing the actual side effects of click to addPhoneLine()
+  describe("addPhoneLine() function", () => {
+    it("should change state of phoneLines and price when phoneLine is added", () => {
+      const instance = wrapper.instance();
+      expect(wrapper.state("phoneLines")).toBe(0);
+      instance.addPhoneLine();
+      expect(wrapper.state("phoneLines")).toBe(1);
+    });
+  });
+
+  describe("removePhoneLine() function", () => {
+    it("should change state of phoneLines and price when phoneLine is removed", () => {
+      const instance = wrapper.instance();
+      expect(wrapper.state("phoneLines")).toBe(1);
+      instance.removePhoneLine();
+      expect(wrapper.state("phoneLines")).toBe(0);
+      instance.removePhoneLine();
+      expect(wrapper.state("phoneLines")).toBe(-1);
+    });
   });
 });
 

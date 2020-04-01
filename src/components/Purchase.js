@@ -10,7 +10,7 @@ class Purchase extends React.Component {
       cellPhones: [],
       price: 0
     };
-    this.includeInternet = this.includeInternet.bind(this);
+    //this.includeInternet = this.includeInternet.bind(this);
   }
 
   priceList = {
@@ -21,7 +21,12 @@ class Purchase extends React.Component {
     "Huawei 99": 900
   };
 
-  includeInternet(input) {
+  includeInternet = input => {
+    if (typeof input !== "boolean") {
+      return () => {
+        throw new TypeError("Wrong type");
+      };
+    } else {
       this.setState({ internetConnection: input });
       if (input) {
         this.setState({ price: this.state.price + 200 });
@@ -30,8 +35,8 @@ class Purchase extends React.Component {
         this.setState({ price: this.state.price - 200 });
         return this.state.price;
       }
-    } 
-  }
+    }
+  };
 
   addPhoneLine = () => {
     this.setState({ phoneLines: this.state.phoneLines + 1 });
@@ -107,6 +112,7 @@ class Purchase extends React.Component {
         <br></br>
         <label>Phone Lines </label>
         <input
+          id="phoneLines"
           type="number"
           max="8"
           min="0"
