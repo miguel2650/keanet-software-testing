@@ -22,6 +22,14 @@ pipeline {
         always {
           junit '**/output/coverage/junit/junit.xml'
         }
+        succes {
+            if(env.BRANCH_NAME == 'master') {
+                sh 'docker build -t react-app --no-cache .'
+                sh 'docker tag react-app localhost:5000/react-app'
+                sh 'docker push localhost:5000/react-app'
+                sh 'docker rmi -f react-app localhost:5000/react-app'
+            }
+        }
       }
     }
     stage('Build') {
@@ -42,14 +50,6 @@ pipeline {
         script {
           def server = Artifactory.server 'My_Artifactory'
           uploadArtifact(server)
-        }
-        script {
-            if(env.BRANCH_NAME == 'master'){
-            sh 'docker build -t react-app --no-cache .'
-            sh 'docker tag react-app localhost:5000/react-app'
-            sh 'docker push localhost:5000/react-app'
-            sh 'docker rmi -f react-app localhost:5000/react-app'
-            }
         }
       }
     }
