@@ -10,7 +10,6 @@ class Purchase extends React.Component {
       cellPhones: [],
       price: 0
     };
-    //this.includeInternet = this.includeInternet.bind(this);
   }
 
   priceList = {
@@ -65,22 +64,34 @@ class Purchase extends React.Component {
   };
 
   selectCellPhone = modelName => {
-    if (modelName in this.priceList) {
-      const newList = [...this.state.cellPhones];
-      newList.push(modelName);
-      this.setState({ cellPhones: newList });
-      this.setState({ price: this.state.price + this.priceList[modelName] });
+    if (typeof modelName !== "string") {
+      return () => {
+        throw new TypeError("Wrong type");
+      };
+    } else {
+      if (modelName in this.priceList) {
+        const newList = [...this.state.cellPhones];
+        newList.push(modelName);
+        this.setState({ cellPhones: newList });
+        this.setState({ price: this.state.price + this.priceList[modelName] });
+      }
     }
     return this.state.price;
   };
 
   deselectCellPhone = modelName => {
-    if (this.state.cellPhones.includes(modelName)) {
-      const newList = [...this.state.cellPhones];
-      const index = newList.indexOf(modelName);
-      newList.splice(index, 1);
-      this.setState({ cellPhones: newList });
-      this.setState({ price: this.state.price - this.priceList[modelName] });
+    if (typeof modelName !== "string") {
+      return () => {
+        throw new TypeError("Wrong type");
+      };
+    } else {
+      if (this.state.cellPhones.includes(modelName)) {
+        const newList = [...this.state.cellPhones];
+        const index = newList.indexOf(modelName);
+        newList.splice(index, 1);
+        this.setState({ cellPhones: newList });
+        this.setState({ price: this.state.price - this.priceList[modelName] });
+      }
     }
     return this.state.price;
   };
