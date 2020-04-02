@@ -22,7 +22,7 @@ pipeline {
         always {
           junit '**/output/coverage/junit/junit.xml'
         }
-        succes {
+        success {
             if(env.BRANCH_NAME == 'master') {
                 sh 'docker build -t react-app --no-cache .'
                 sh 'docker tag react-app localhost:5000/react-app'
