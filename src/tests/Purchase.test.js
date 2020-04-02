@@ -2,15 +2,21 @@ import React from "react";
 import { render } from "@testing-library/react";
 import Purchase from "../components/Purchase";
 import { shallow } from "enzyme";
+// Configured adapter for Enzyme
+import { configure } from "enzyme";
+import Adapter from "enzyme-adapter-react-16";
+configure({ adapter: new Adapter() });
 
+// Using enzyme to simulate
+const wrapper = shallow(<Purchase></Purchase>);
+
+/*
 test("renders KEANet <h1> tag", () => {
   const { getByText } = render(<Purchase></Purchase>);
   const linkElement = getByText("KEANet");
   expect(linkElement).toBeInTheDocument();
 });
 
-// Using enzyme to simulate
-const wrapper = shallow(<Purchase></Purchase>);
 
 // This test is a Enzyme and Jest specific test. This creates the
 // wrapper components as HTML and makes sure that is is rendered probably.
@@ -28,6 +34,7 @@ describe("includeInternet function", () => {
     wrapper.find("#includeInternet").simulate("click");
   });
 });
+*/
 
 // Testing the parameters passed to includeInternet() function
 describe("includeInternet()", () => {

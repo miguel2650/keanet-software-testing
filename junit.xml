@@ -1,3 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="0" failures="0" time="2.628">
+<testsuites name="jest tests" tests="6" failures="0" time="5.355">
+  <testsuite name="includeInternet()" errors="0" failures="0" skipped="0" timestamp="2020-04-02T19:34:33" time="3.698" tests="6">
+    <testcase classname="includeInternet() should return a new total price and fail at all datatypes but boolean" name="includeInternet() should return a new total price and fail at all datatypes but boolean" time="0.029">
+    </testcase>
+    <testcase classname="includeInternet() addPhoneLine() function should change state of phoneLines and price when phoneLine is added" name="includeInternet() addPhoneLine() function should change state of phoneLines and price when phoneLine is added" time="0.004">
+    </testcase>
+    <testcase classname="includeInternet() removePhoneLine() function should change state of phoneLines and price when phoneLine is removed" name="includeInternet() removePhoneLine() function should change state of phoneLines and price when phoneLine is removed" time="0.005">
+    </testcase>
+    <testcase classname="includeInternet() selectCellPhone() function should add given phone model to the cellPhone state array and return new total price" name="includeInternet() selectCellPhone() function should add given phone model to the cellPhone state array and return new total price" time="0.029">
+    </testcase>
+    <testcase classname="includeInternet() deselectCellPhone() function should remove given phone model from the cellPhone state array and return new total price" name="includeInternet() deselectCellPhone() function should remove given phone model from the cellPhone state array and return new total price" time="0.007">
+    </testcase>
+    <testcase classname="includeInternet() deselectCellPhone() function buying() function should return a string" name="includeInternet() deselectCellPhone() function buying() function should return a string" time="0.001">
+    </testcase>
+  </testsuite>
 </testsuites>
