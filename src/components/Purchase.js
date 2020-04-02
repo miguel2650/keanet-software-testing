@@ -65,11 +65,17 @@ class Purchase extends React.Component {
   };
 
   selectCellPhone = modelName => {
-    if (modelName in this.priceList) {
-      const newList = [...this.state.cellPhones];
-      newList.push(modelName);
-      this.setState({ cellPhones: newList });
-      this.setState({ price: this.state.price + this.priceList[modelName] });
+    if (typeof modelName !== "string") {
+      return () => {
+        throw new TypeError("Wrong type");
+      };
+    } else {
+      if (modelName in this.priceList) {
+        const newList = [...this.state.cellPhones];
+        newList.push(modelName);
+        this.setState({ cellPhones: newList });
+        this.setState({ price: this.state.price + this.priceList[modelName] });
+      }
     }
     return this.state.price;
   };

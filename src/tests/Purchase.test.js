@@ -102,6 +102,78 @@ describe("includeInternet()", () => {
       }
     });
   });
+
+  describe("selectCellPhone() function", () => {
+    it("should add given phone model to the cellPhone state array.", () => {
+          // Data for inputs with expected outputs
+    let mockData = {
+      case0: {
+        input: "Motorola G99",
+        expected: 800
+      },
+      case1: {
+        input: "iPhone 99",
+        expected: 6800
+      },
+      case2: {
+        input: "Samsung Galaxy 99",
+        expected: 7800
+      },
+      case3: {
+        input: "Sony Xperia 99",
+        expected: 8700
+      },
+      case4: {
+        input: "Huawei 99",
+        expected: 9600
+      },
+      case5: {
+        input: 0,
+        expected: TypeError("Wrong type")
+      },
+      case6: {
+        input: 100,
+        expected: TypeError("Wrong type")
+      },
+      case7: {
+        input: null,
+        expected: TypeError("Wrong type")
+      },
+      case8: {
+        input: () => {console.log("test")},
+        expected: TypeError("Wrong type")
+      },
+      case9: {
+        input: {},
+        expected: TypeError("Wrong type")
+      },
+      case10: {
+        input: "motorola g99",
+        expected: 9600
+      },
+    };
+    // Counter will keep track of how many items have been added to the list
+    let counter = 1
+    for (let testCase in mockData) {
+      const instance = wrapper
+        .instance()
+        .selectCellPhone(mockData[testCase].input);
+      // Test cases where error is expected
+      if (typeof mockData[testCase].expected !== "number") {
+        expect(instance).toThrow(mockData[testCase].expected);
+      } else {
+        // Text cases where value is expected
+        expect(instance).toBe(mockData[testCase].expected);
+        // How many items has been added to the list
+        expect(wrapper.state("cellPhones").length).toBe(counter);
+        //expect()
+        counter ++
+      }
+    }
+    });
+  });
+
+
   });
 /*
 
