@@ -31,7 +31,7 @@ describe("includeInternet function", () => {
 
 // Testing the parameters passed to includeInternet() function
 describe("includeInternet()", () => {
-  it("should fail at all datatypes but boolean", () => {
+  it("should return a new total price and fail at all datatypes but boolean", () => {
     // Data for inputs with expected outputs
     let mockData = {
       case0: {
@@ -69,6 +69,11 @@ describe("includeInternet()", () => {
       } else {
         // Text cases where value is expected
         expect(instance).toBe(mockData[testCase].expected);
+
+        // The test that will bring peace in the world
+        if (!wrapper.state("internetConnection") === false) {
+          expect(wrapper.state("internetConnection")).not.toBe(!true);
+        }
       }
     }
   });
@@ -104,7 +109,7 @@ describe("includeInternet()", () => {
   });
 
   describe("selectCellPhone() function", () => {
-    it("should add given phone model to the cellPhone state array.", () => {
+    it("should add given phone model to the cellPhone state array and return new total price", () => {
           // Data for inputs with expected outputs
     let mockData = {
       case0: {
@@ -151,6 +156,10 @@ describe("includeInternet()", () => {
         input: "motorola g99",
         expected: 9600
       },
+      case10: {
+        input: "iphun4",
+        expected: 9600
+      },
     };
     // Counter will keep track of how many items have been added to the list
     let counter = 1
@@ -164,35 +173,106 @@ describe("includeInternet()", () => {
       } else {
         // Text cases where value is expected
         expect(instance).toBe(mockData[testCase].expected);
-        // How many items has been added to the list
-        expect(wrapper.state("cellPhones").length).toBe(counter);
-        //expect()
-        counter ++
+        // If the given value is in the priceList then it is expected to have been added to the
+        // cellPhones state.
+        if(mockData[testCase].input in wrapper.instance().priceList) {
+          expect(wrapper.state("cellPhones")).toContain(mockData[testCase].input)
+          // How many items has been added to the list
+          expect(wrapper.state("cellPhones").length).toBe(counter);
+          counter ++
+        } else {
+          // If the given value is not from the priceList, then we should not be in the
+          // cellPhones state.
+          expect(wrapper.state("cellPhones")).not.toContain(mockData[testCase].input)
+        }
       }
     }
     });
   });
 
-
-  });
-/*
-
-TODO: We are unable to test for type errors
-Look inside Purchase.JS @ includeInternet()
-The input of whatever type will never crash the application.
-Any type of input can be acceptable.
-Changing to TypeScript can fix our issue or adding some kind of checking mechanism.
-Like: If (typeOf(input) === Boolean) {} else {throw new Error()}
-Give me your feedback.
-
-------------------------------------------------------
-Dont mind this, was used for testing a error testcase.
-
-      let tree2 = component.includeInternet("string");
-      expect(tree2).toThrow();
-
+  describe("deselectCellPhone() function", () => {
+    it("should remove given phone model from the cellPhone state array and return new total price", () => {
+    // Data for inputs with expected outputs
+    let mockData = {
+      case0: {
+        input: "Motorola G99",
+        expected: 8800
+      },
+      case1: {
+        input: "iPhone 99",
+        expected: 2800
+      },
+      case2: {
+        input: "Samsung Galaxy 99",
+        expected: 1800
+      },
       case3: {
-        input: "thisIsString",
-        expected: new Error("Eror")
+        input: "Sony Xperia 99",
+        expected: 900
+      },
+      case4: {
+        input: "Huawei 99",
+        expected: 0
+      },
+      case5: {
+        input: 0,
+        expected: TypeError("Wrong type")
+      },
+      case6: {
+        input: 100,
+        expected: TypeError("Wrong type")
+      },
+      case7: {
+        input: null,
+        expected: TypeError("Wrong type")
+      },
+      case8: {
+        input: () => {console.log("test")},
+        expected: TypeError("Wrong type")
+      },
+      case9: {
+        input: {},
+        expected: TypeError("Wrong type")
+      },
+      case10: {
+        input: "motorola g99",
+        expected: 0
+      },
+      case10: {
+        input: "iphun4",
+        expected: 0
+      },
+    };
+    // Counter will keep track of how many items there will be in the state from the beginning
+    let counter = wrapper.state("cellPhones").length
+    for (let testCase in mockData) {
+      const instance = wrapper
+        .instance()
+        .deselectCellPhone(mockData[testCase].input);
+      // Test cases where error is expected
+      if (typeof mockData[testCase].expected !== "number") {
+        expect(instance).toThrow(mockData[testCase].expected);
+      } else {
+        // Text cases where value is expected
+        expect(instance).toBe(mockData[testCase].expected);
+        // If the given value is in the priceList then it is expected to have been removed from the
+        // cellPhones state.
+        if(mockData[testCase].input in wrapper.instance().priceList) {
+          expect(wrapper.state("cellPhones")).not.toContain(mockData[testCase].input)
+          // How many items has been added to the list
+          counter --
+          expect(wrapper.state("cellPhones").length).toBe(counter);
+        } else {
+          // If the given value is not from the priceList, then nothing will happen.
+        }
       }
-*/
+    }
+    });
+
+    describe("buying() function", () => {
+      it("should return a string", () => {
+        expect(typeof wrapper.instance().buying()).toBe("string")
+      });
+    });
+  });
+  });
