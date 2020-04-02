@@ -32,7 +32,6 @@ describe("includeInternet function", () => {
 // Testing the parameters passed to includeInternet() function
 describe("includeInternet()", () => {
   it("should fail at all datatypes but boolean", () => {
-    //let component = renderer.create(<Purchase></Purchase>).getInstance();
     // Data for inputs with expected outputs
     let mockData = {
       case0: {
@@ -60,20 +59,17 @@ describe("includeInternet()", () => {
         expected: TypeError("Wrong type")
       }
     };
-    let counter = 0;
     for (let testCase in mockData) {
-      console.log("Test case: ", counter);
       const instance = wrapper
         .instance()
         .includeInternet(mockData[testCase].input);
       // Test cases where error is expected
-      if (counter >= 2) {
+      if (typeof mockData[testCase].expected !== "number") {
         expect(instance).toThrow(mockData[testCase].expected);
       } else {
         // Text cases where value is expected
         expect(instance).toBe(mockData[testCase].expected);
       }
-      counter++;
     }
   });
 
@@ -81,24 +77,32 @@ describe("includeInternet()", () => {
   describe("addPhoneLine() function", () => {
     it("should change state of phoneLines and price when phoneLine is added", () => {
       const instance = wrapper.instance();
-      expect(wrapper.state("phoneLines")).toBe(0);
-      instance.addPhoneLine();
-      expect(wrapper.state("phoneLines")).toBe(1);
+      for (let i = 0; i < 9; i++) {
+        if(i > 8) {
+          expect(instance.addPhoneLine()).toThrow(Error("Can not exceed value of 8"))
+        } else {
+          expect(wrapper.state("phoneLines")).toBe(i);
+          instance.addPhoneLine();
+        }
+      }
     });
   });
 
+  
   describe("removePhoneLine() function", () => {
     it("should change state of phoneLines and price when phoneLine is removed", () => {
       const instance = wrapper.instance();
-      expect(wrapper.state("phoneLines")).toBe(1);
-      instance.removePhoneLine();
-      expect(wrapper.state("phoneLines")).toBe(0);
-      instance.removePhoneLine();
-      expect(wrapper.state("phoneLines")).toBe(-1);
+      for (let i = 8; i > -2; i--) {
+        if(i >= 0) {
+          expect(wrapper.state("phoneLines")).toBe(i);
+          instance.removePhoneLine();
+        } else {
+          expect(instance.removePhoneLine()).toThrow(Error("Can not subceed value of 0"))
+        }
+      }
     });
   });
-});
-
+  });
 /*
 
 TODO: We are unable to test for type errors

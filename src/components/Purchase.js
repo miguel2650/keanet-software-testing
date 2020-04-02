@@ -39,13 +39,29 @@ class Purchase extends React.Component {
   };
 
   addPhoneLine = () => {
-    this.setState({ phoneLines: this.state.phoneLines + 1 });
-    this.setState({ price: this.state.price + 150 });
+    if (this.state.phoneLines >= 8) {
+      return () => {
+        throw new Error("Can not exceed value of 8");
+      };
+    } else {
+      this.setState({
+        phoneLines: this.state.phoneLines + 1
+      });
+      this.setState({
+        price: this.state.price + 150
+      });
+    }
   };
 
   removePhoneLine = () => {
-    this.setState({ phoneLines: this.state.phoneLines - 1 });
-    this.setState({ price: this.state.price - 150 });
+    if (this.state.phoneLines <= 0) {
+      return () => {
+        throw new Error("Can not subceed value of 0");
+      };
+    } else {
+      this.setState({ phoneLines: this.state.phoneLines - 1 });
+      this.setState({ price: this.state.price - 150 });
+    }
   };
 
   selectCellPhone = modelName => {
