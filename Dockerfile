@@ -32,5 +32,7 @@ ENV PUBLIC_PATH "/"
 
 RUN npm run-script build
 
+RUN npm run-script test
+
 # Main command
 CMD [ "npm", "run-script", "start" ]
