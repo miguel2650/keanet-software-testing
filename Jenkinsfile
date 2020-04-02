@@ -9,9 +9,6 @@ node {
       sh 'docker -v'
       sh 'printenv'
     }
-    stage('Test'){
-      sh 'npm test'
-    }
     stage('Deploy'){
       if(env.BRANCH_NAME == 'master'){
         sh 'docker build -t react-app --no-cache .'
