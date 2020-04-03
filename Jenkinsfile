@@ -20,13 +20,7 @@ pipeline {
       }
       post {
         always {
-          junit '**/output/coverage/junit/junit.xml'
-        }
-        success {
-            sh 'docker build -t react-app --no-cache .'
-            sh 'docker tag react-app localhost:5000/react-app'
-            sh 'docker push localhost:5000/react-app'
-            sh 'docker rmi -f react-app localhost:5000/react-app'
+          junit '**output/coverage/junit/junit.xml'
         }
       }
     }
@@ -46,24 +40,12 @@ pipeline {
       }
       steps {
         script {
-          def server = Artifactory.server 'My_Artifactory'
-          uploadArtifact(server)
+            sh 'docker build -t react-app --no-cache .'
+            sh 'docker tag react-app localhost:5000/react-app'
+            sh 'docker push localhost:5000/react-app'
+            sh 'docker rmi -f react-app localhost:5000/react-app'
         }
       }
     }
   }
-}
-def uploadArtifact(server) {
-  def uploadSpec = """{
-            "files": [
-              {
-                "pattern": "continuous-test-code-coverage-guide*.tgz",
-                "target": "npm-stable/"
-              }
-           ]
-          }"""
-  server.upload(uploadSpec)
-  def buildInfo = Artifactory.newBuildInfo()
-  server.upload spec: uploadSpec, buildInfo: buildInfo
-  server.publishBuildInfo buildInfo
 }
