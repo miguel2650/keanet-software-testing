@@ -1,5 +1,5 @@
 # KEANet
-[![Build Status](https://travis-ci.org/miguel2650/keanet-software-testing.svg?branch=master)](https://travis-ci.org/miguel2650/keanet-software-testing)
+[![Build Status](https://travis-ci.org/miguel2650/keanet-software-testing.svg?branch=travis-ci)](https://travis-ci.org/miguel2650/keanet-software-testing)
 Try out the application [here](https://miguel2650.github.io/keanet-software-testing/)
 ## About this project
 This project was made by Mikkel, Tobias and Hakan as an assingment for the subject testing.  
